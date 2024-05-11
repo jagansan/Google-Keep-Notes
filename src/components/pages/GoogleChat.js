@@ -1,50 +1,37 @@
-import React, { useState } from 'react'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { FaPlus } from "react-icons/fa";
-import InputGroup from 'react-bootstrap/InputGroup';
-import Form from 'react-bootstrap/Form';
+import React, { useState } from "react";
+import CreateNote from './CreateNote';
+import NoteList from "./NoteList";
 
-const GoogleChat = () => {
-
-    const [typing, settyping] = useState(false);
-    const [title, settitle] = useState('');
-    function titlechanged(e) {
-        settitle(e.target.value);
+function GoogleChat() {
+    // Declare state variable for notes
+    const [notes, setNotes] = useState([]);
+  
+    // Add new note to the list
+    function addNote(newNote) {
+        setNotes(prevNotes => {
+            return [...prevNotes, newNote];
+        });
     }
-
+  
+    // Delete note function
+    function deleteNote(id) {
+        setNotes(prevNotes => {
+            return prevNotes.filter((noteItem, index) => {
+                return index !== id;
+            });
+        });
+    }
+  
     return (
-        <div className='google_keep_notes'>
-            <Container>
-                <div className='title___keep___notes '>
-                    <Row className='justify-content-md-center'>
-                        <Col md={8}>
-                            <div className='google___keep___elements'>
-                                <div className='chat___title'>
-                                    <Form>
-                                        <InputGroup className="mb-3">
-                                            <Form.Control placeholder="Title" onChange={titlechanged} className='input__module'/>
-                                        </InputGroup>
-                                    </Form>                            
-                                </div>
-                                <div className='chat___descr'>
-                                    <Form>
-                                        <InputGroup className="mb-3">
-                                            <Form.Control as="textarea" placeholder="Take a Note..." rows={3} className='input__module'/>
-                                        </InputGroup>
-                                    </Form>  
-                                </div>
-                                <div className='add___note___icon'>
-                                    <div className='icon___style'><FaPlus /></div>
-                                </div>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-            </Container>
-        </div>
-    )
+        <div>
+            <CreateNote onAdd={addNote} />
+            {notes.map((noteItem, index) => {
+                return (
+                    <NoteList key={index} id={index} title={noteItem.title} content={noteItem.content} onDelete={deleteNote} />
+                );
+            })}
+      </div>
+    );
 }
-
-export default GoogleChat
+  
+export default GoogleChat;
