@@ -8,14 +8,14 @@ function NoteList(props) {
     }
   
     return (
-      <div className="note">
-        <h1>{props.title}</h1>
-        <p>{props.content}</p>
-        <button onClick={handleClick}>
-            <MdDelete />
-        </button>
-      </div>
+        <div className="note">
+            <h1>{props.title}</h1>
+            <p>{props.content}</p>
+            <button onClick={handleClick} title='Delete'>
+                <MdDelete />
+            </button>
+        </div>
     );
-  }
+}
 
 export default NoteList
